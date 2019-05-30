@@ -108,6 +108,8 @@ object SharedPieces {
             val layerSpec = JsonSupport.parseJson(addedLayerSpecJson)
             layerSpec["data"] = addedData
             addedLayerSpecJson = JsonSupport.toJson(layerSpec)
+            println("MMMMMMMMMMM")
+            println(addedLayerSpecJson)
         }
 
         val spec = "{" +
@@ -122,37 +124,37 @@ object SharedPieces {
     }
 
     private fun samplePolyAndPoints(addedLayerSpec: String?): String {
-        return "   'mapping': {" +
-                "             'x': 'x'," +
-                "             'y': 'y'" +
-                "           }," +
-                "   'layers': [" +
-                "               {" +
-                "                  'geom': 'polygon'," +
-                "                  'mapping': {" +
-                "                               'fill': 'id'," +
-                "                               'group': 'id'" +
-                "                              }" +
-                "               },{" +
-                "                  'geom': 'point'," +
-                "                  'alpha': '0.5'," +
-                "                  'x': '0.'," +
-                "                  'y': '0.'," +
-                "                  'color': 'red'," +
-                "                  'size': '5'" +
-                "               },{" +
-                "                  'geom': 'point'," +
-                "                   'alpha': '0.5'," +
-                "                   'x': '1.'," +
-                "                   'y': '1.'," +
-                "                   'color': 'green'," +
-                "                   'size': '5'" +
-                "               }" +
-                (if (addedLayerSpec == null)
-                    ""
-                else
-                    ", $addedLayerSpec") +
-                "           ]" +
-                ""
+        return  """
+            "mapping": {
+                "x": "x",
+                "y": "y"
+            },
+            "layers": [
+                {
+                    "geom": "polygon",
+                    "mapping": {
+                        "fill": "id",
+                        "group": "id"
+                    }
+                },
+                {
+                    "geom": "point",
+                    "alpha": "0.5",
+                    "x": "0.",
+                    "y": "0.",
+                    "color": "red",
+                    "size": "5"
+                },
+                {
+                    "geom": "point",
+                    "alpha": "0.5",
+                    "x": "1.",
+                    "y": "1.",
+                    "color": "green",
+                    "size": "5"
+                }
+                ${if (addedLayerSpec == null) "" else ", $addedLayerSpec"}
+            ]
+        """.trimIndent()
     }
 }

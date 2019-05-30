@@ -12,44 +12,54 @@ open class ABLine : DemoBase() {
         get() = viewSize()
 
     protected fun lineDefaultAlone(): Map<String, Any> {
-        val spec = "    {" +
-                "   'layers': [" +
-                "           {" +
-                "             'geom': 'abline'," +
-                "             'size': 3" +
-                "           }" +
-                "         ]" +
-                "}"
+        val spec = """
+            {
+                "layers": [
+                    {
+                        "geom": "abline",
+                        "size": 3
+                    }
+                ]
+            }
+        """.trimIndent()
 
         return HashMap(JsonSupport.parseJson(spec))
     }
 
     protected fun lineDefault(): Map<String, Any> {
-        val abLine = "               {" +
-                "             'geom': 'abline'," +
-                "             'size': 3" +
-                "           }"
+        val abLine = """
+            {
+                "geom": "abline",
+                "size": 3
+            }
+        """.trimIndent()
+
+        println(SharedPieces.samplePolyAndPointsPlotWith(abLine, emptyMap()))
 
         return SharedPieces.samplePolyAndPointsPlotWith(abLine, emptyMap())
     }
 
     protected fun negativeSlope(): Map<String, Any> {
-        val abLine = "               {" +
-                "             'geom': 'abline'," +
-                "             'slope': '-2'," +
-                "             'size': 3" +
-                "           }"
+        val abLine = """
+            {
+                "geom": "abline",
+                "slope": "-2",
+                "size": 3
+            }
+        """.trimIndent()
 
         return SharedPieces.samplePolyAndPointsPlotWith(abLine, emptyMap())
     }
 
     protected fun zeroSlope(): Map<String, Any> {
-        val abLine = "               {" +
-                "             'geom': 'abline'," +
-                "             'intercept': '1'," +
-                "             'slope': '0'," +
-                "             'size': 3" +
-                "           }"
+        val abLine = """
+            {
+                "geom": "abline",
+                "intercept": "1",
+                "slope": "0",
+                "size": 3
+            }
+        """.trimIndent()
 
         return SharedPieces.samplePolyAndPointsPlotWith(abLine, emptyMap())
     }
@@ -62,15 +72,17 @@ open class ABLine : DemoBase() {
             slope.add(i * 0.2)
         }
 
-        val abLine = "               {" +
-                "             'geom': 'abline'," +
-                "             'size': 2," +
-                "             'mapping': {" +
-                "                          'intercept': 'intercept'," +
-                "                          'slope': 'slope'," +
-                "                          'color': 'intercept'" +
-                "                        }" +
-                "           }"
+        val abLine = """
+            {
+                "geom": "abline",
+                "size": 2,
+                "mapping": {
+                    "intercept": "intercept",
+                    "slope": "slope",
+                    "color": "intercept"
+                }
+            }
+        """.trimIndent()
 
         return SharedPieces.samplePolyAndPointsPlotWith(abLine, mapOf(
                 "intercept" to intercept,
