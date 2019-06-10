@@ -1,5 +1,7 @@
 package jetbrains.datalore.visualization.base.svg.slim
 
+import jetbrains.datalore.visualization.base.svg.css.StyleType
+
 interface CanvasContext {
     fun push(transform: Any?)
 
@@ -17,7 +19,7 @@ interface CanvasContext {
     fun drawPath(d: String?, lineDash: DoubleArray?, transform: String?,
                  fillColor: String?, fillOpacity: Double, strokeColor: String?, strokeOpacity: Double, strokeWidth: Double)
 
-    fun drawText(x: Double, y: Double, text: String, style: String?, transform: String?,
+    fun drawText(x: Double, y: Double, text: String, style: Map<StyleType, Any>, transform: String?,
                  fillColor: String?, fillOpacity: Double, strokeColor: String?, strokeOpacity: Double, strokeWidth: Double,
                  textAnchor: String?, textDy: String?)
 }

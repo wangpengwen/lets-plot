@@ -11,6 +11,10 @@ import jetbrains.datalore.visualization.base.canvas.Context2d
 import jetbrains.datalore.visualization.base.svg.*
 import jetbrains.datalore.visualization.base.svg.SvgConstants.SVG_STROKE_DASHARRAY_ATTRIBUTE
 import jetbrains.datalore.visualization.base.svg.SvgConstants.SVG_STYLE_ATTRIBUTE
+import jetbrains.datalore.visualization.base.svg.css.CssResource
+import jetbrains.datalore.visualization.base.svg.css.SelectorBuilder
+import jetbrains.datalore.visualization.base.svg.css.SelectorType
+import jetbrains.datalore.visualization.base.svg.css.StyleType
 import jetbrains.datalore.visualization.base.svg.event.SvgAttributeEvent
 import jetbrains.datalore.visualization.base.svg.slim.CanvasAware
 import jetbrains.datalore.visualization.base.svg.slim.CanvasContext
@@ -20,6 +24,7 @@ class SvgCanvasRenderer(private val svgRoot: SvgElement, private val canvasContr
     private val virtualCanvas = canvasControl.createCanvas(canvasControl.size)
     private val animationTimer = canvasControl.createAnimationTimer(this)
     private var needRedraw: Boolean = true
+    private var cssResource: CssResource? = null
 
     init {
         canvasControl.addChild(mainCanvas)
@@ -74,6 +79,141 @@ class SvgCanvasRenderer(private val svgRoot: SvgElement, private val canvasContr
         }
     }
 
+    private fun draw(root: SvgNode, context: CanvasContext, selectorBuilder: SelectorBuilder? = null) {
+        if (root is SvgGraphicsElement && root.visibility().get() == SvgGraphicsElement.Visibility.HIDDEN) {
+            return
+        }
+
+        var selectorBuilderForNode : SelectorBuilder? = null
+
+        when (root) {
+            is CanvasAware -> root.draw(context)
+            is SvgElement -> {
+                val selectorNames = getSelectorNames(root)
+                selectorBuilderForNode = selectorBuilder?.clone()?.innerSelector(selectorNames) ?: SelectorBuilder(selectorNames)
+
+                val style = cssResource?.getStylesForSelector(selectorBuilderForNode.build().first) ?: mutableMapOf()
+                drawElement(root, context, style)
+            }
+            else -> Unit
+        }
+
+        for (node in root.children()) {
+            draw(node, context, selectorBuilderForNode)
+        }
+
+        if (root is SvgGElement) {
+            context.restore()
+        }
+    }
+
+    private fun getSelectorNames(element: SvgElement): List<Any> {
+        val mainName = when (element) {
+            is SvgTextElement -> null
+            is SvgLineElement -> SelectorType.LINE
+            else -> element.elementName
+        }
+
+        val nameList = mutableListOf<Any>()
+        if (mainName!=null) {
+            nameList.add(mainName)
+        }
+        (element as? SvgStylableElement)?.let { svgStylableElement ->
+            val classes = svgStylableElement.fullClass().split(" ").filter { !it.isEmpty() }
+            if (classes.count() > 0) {
+                nameList.clear()
+                nameList.addAll(classes)
+            }
+        }
+
+        return nameList
+    }
+
+    private fun drawElement(el: SvgElement, context: CanvasContext, style: Map<StyleType, Any>) {
+        when (el) {
+            is SvgSvgElement -> Unit //TODO:
+            is SvgStyleElement -> cssResource = el.cssResource
+            is SvgGElement -> context.push(
+                    el.transform().get()
+            )
+            is SvgCircleElement -> context.drawCircle(
+                    zeroIfNull(el.cx()),
+                    zeroIfNull(el.cy()),
+                    zeroIfNull(el.r()),
+                    getDashArray(el),
+                    stringOrNull(el.transform()),
+                    stringOrNull(el.fill())!!,
+                    oneIfNull(el.fillOpacity()),
+                    stringOrNull(el.stroke()),
+                    oneIfNull(el.strokeOpacity()),
+                    zeroIfNull(el.strokeWidth())
+            )
+            is SvgLineElement -> context.drawLine(
+                    zeroIfNull(el.x1()),
+                    zeroIfNull(el.y1()),
+                    zeroIfNull(el.x2()),
+                    zeroIfNull(el.y2()),
+                    getDashArray(el),
+                    stringOrNull(el.transform()),
+                    stringOrNull(el.stroke()),
+                    oneIfNull(el.strokeOpacity()),
+                    zeroIfNull(el.strokeWidth())
+            )
+            is SvgRectElement -> context.drawRect(
+                    zeroIfNull(el.x()),
+                    zeroIfNull(el.y()),
+                    zeroIfNull(el.width()),
+                    zeroIfNull(el.height()),
+                    getDashArray(el),
+                    stringOrNull(el.transform()),
+                    stringOrNull(el.fill()),
+                    oneIfNull(el.fillOpacity()),
+                    stringOrNull(el.stroke()),
+                    oneIfNull(el.strokeOpacity()),
+                    zeroIfNull(el.strokeWidth())
+            )
+            is SvgPathElement -> context.drawPath(
+                    stringOrNull(el.d()),
+                    getDashArray(el),
+                    stringOrNull(el.transform()),
+                    stringOrNull(el.fill()),
+                    oneIfNull(el.fillOpacity()),
+                    stringOrNull(el.stroke()),
+                    oneIfNull(el.strokeOpacity()),
+                    zeroIfNull(el.strokeWidth())
+            )
+            is SvgTextElement -> context.drawText(
+                    zeroIfNull(el.x()),
+                    zeroIfNull(el.y()),
+                    getText(el),
+                    style,
+                    stringOrNull(el.transform()),
+                    stringOrNull(el.fill()),
+                    oneIfNull(el.fillOpacity()),
+                    stringOrNull(el.stroke()),
+                    oneIfNull(el.strokeOpacity()),
+                    zeroIfNull(el.strokeWidth()),
+                    stringOrNull(el.textAnchor()),
+                    stringOrNull(el.textDy())
+            )
+            is SvgTSpanElement -> context.drawText(
+                    zeroIfNull(el.x()),
+                    zeroIfNull(el.y()),
+                    getText(el),
+                    style,
+                    null,
+                    stringOrNull(el.fill()),
+                    oneIfNull(el.fillOpacity()),
+                    stringOrNull(el.stroke()),
+                    oneIfNull(el.strokeOpacity()),
+                    zeroIfNull(el.strokeWidth()),
+                    stringOrNull(el.textAnchor()),
+                    stringOrNull(el.textDy())
+            )
+            else -> println("Unknown svg-element with name: " + el.elementName)
+        }
+    }
+
     companion object {
         private fun clearCanvas(canvas: Canvas) {
             canvas.context2d.clearRect(DoubleRectangle(0.0, 0.0, canvas.size.x.toDouble(), canvas.size.y.toDouble()))
@@ -86,111 +226,6 @@ class SvgCanvasRenderer(private val svgRoot: SvgElement, private val canvasContr
                 val svgSvgElement = SvgSvgElement()
                 svgSvgElement.children().add(svgElement)
                 svgSvgElement
-            }
-        }
-
-        private fun draw(root: SvgNode, context: CanvasContext) {
-            if (root is SvgGraphicsElement && root.visibility().get() == SvgGraphicsElement.Visibility.HIDDEN) {
-                return
-            }
-
-            when (root) {
-                is CanvasAware -> root.draw(context)
-                is SvgElement -> drawElement(root, context)
-                else -> Unit
-            }
-
-            for (node in root.children()) {
-                draw(node, context)
-            }
-
-            if (root is SvgGElement) {
-                context.restore()
-            }
-        }
-
-        private fun drawElement(el: SvgElement, context: CanvasContext) {
-            when (el) {
-                is SvgSvgElement -> Unit //TODO:
-                is SvgStyleElement -> Unit //TODO:
-                is SvgGElement -> context.push(
-                        el.transform().get()
-                )
-                is SvgCircleElement -> context.drawCircle(
-                        zeroIfNull(el.cx()),
-                        zeroIfNull(el.cy()),
-                        zeroIfNull(el.r()),
-                        getDashArray(el),
-                        stringOrNull(el.transform()),
-                        stringOrNull(el.fill())!!,
-                        oneIfNull(el.fillOpacity()),
-                        stringOrNull(el.stroke()),
-                        oneIfNull(el.strokeOpacity()),
-                        zeroIfNull(el.strokeWidth())
-                )
-                is SvgLineElement -> context.drawLine(
-                        zeroIfNull(el.x1()),
-                        zeroIfNull(el.y1()),
-                        zeroIfNull(el.x2()),
-                        zeroIfNull(el.y2()),
-                        getDashArray(el),
-                        stringOrNull(el.transform()),
-                        stringOrNull(el.stroke()),
-                        oneIfNull(el.strokeOpacity()),
-                        zeroIfNull(el.strokeWidth())
-                )
-                is SvgRectElement -> context.drawRect(
-                        zeroIfNull(el.x()),
-                        zeroIfNull(el.y()),
-                        zeroIfNull(el.width()),
-                        zeroIfNull(el.height()),
-                        getDashArray(el),
-                        stringOrNull(el.transform()),
-                        stringOrNull(el.fill()),
-                        oneIfNull(el.fillOpacity()),
-                        stringOrNull(el.stroke()),
-                        oneIfNull(el.strokeOpacity()),
-                        zeroIfNull(el.strokeWidth())
-                )
-                is SvgPathElement -> context.drawPath(
-                        stringOrNull(el.d()),
-                        getDashArray(el),
-                        stringOrNull(el.transform()),
-                        stringOrNull(el.fill()),
-                        oneIfNull(el.fillOpacity()),
-                        stringOrNull(el.stroke()),
-                        oneIfNull(el.strokeOpacity()),
-                        zeroIfNull(el.strokeWidth())
-                )
-                is SvgTextElement -> context.drawText(
-                        zeroIfNull(el.x()),
-                        zeroIfNull(el.y()),
-                        getText(el),
-                        getStyle(el),
-                        stringOrNull(el.transform()),
-                        stringOrNull(el.fill()),
-                        oneIfNull(el.fillOpacity()),
-                        stringOrNull(el.stroke()),
-                        oneIfNull(el.strokeOpacity()),
-                        zeroIfNull(el.strokeWidth()),
-                        stringOrNull(el.textAnchor()),
-                        stringOrNull(el.textDy())
-                )
-                is SvgTSpanElement -> context.drawText(
-                        zeroIfNull(el.x()),
-                        zeroIfNull(el.y()),
-                        getText(el),
-                        getStyle(el),
-                        null,
-                        stringOrNull(el.fill()),
-                        oneIfNull(el.fillOpacity()),
-                        stringOrNull(el.stroke()),
-                        oneIfNull(el.strokeOpacity()),
-                        zeroIfNull(el.strokeWidth()),
-                        stringOrNull(el.textAnchor()),
-                        stringOrNull(el.textDy())
-                )
-                else -> println("Unknown svg-element with name: " + el.elementName)
             }
         }
 

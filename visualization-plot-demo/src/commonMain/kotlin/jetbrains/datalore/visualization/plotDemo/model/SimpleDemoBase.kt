@@ -7,6 +7,7 @@ import jetbrains.datalore.visualization.base.svg.SvgColors
 import jetbrains.datalore.visualization.base.svg.SvgCssResource
 import jetbrains.datalore.visualization.base.svg.SvgRectElement
 import jetbrains.datalore.visualization.base.svg.SvgSvgElement
+import jetbrains.datalore.visualization.base.svg.css.CssResource
 import jetbrains.datalore.visualization.plot.base.GeomContext
 import jetbrains.datalore.visualization.plot.base.render.svg.GroupComponent
 import jetbrains.datalore.visualization.plot.builder.Plot
@@ -22,7 +23,7 @@ abstract class SimpleDemoBase(protected val demoInnerSize: DoubleVector = DEFAUL
     protected open val padding: DoubleVector
         get() = DEFAULT_PADDING
     protected val theme: Theme = DEFAULT_THEME
-    protected open val cssStyle: String = Style.css
+    protected open val cssStyle: CssResource = Style.CSS
 
     private fun toComponentSize(innerSize: DoubleVector): DoubleVector {
         return innerSize.add(padding.mul(2.0))
@@ -54,7 +55,7 @@ abstract class SimpleDemoBase(protected val demoInnerSize: DoubleVector = DEFAUL
         svg.height().set(demoComponentSize.y)
 
         svg.setStyle(object : SvgCssResource {
-            override fun css(): String = cssStyle
+            override fun css(): CssResource = cssStyle
         })
 
         val viewport = DoubleRectangle(padding, demoInnerSize)

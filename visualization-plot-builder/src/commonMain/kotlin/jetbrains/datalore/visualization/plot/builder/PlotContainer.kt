@@ -17,6 +17,7 @@ import jetbrains.datalore.visualization.base.svg.SvgCssResource
 import jetbrains.datalore.visualization.base.svg.SvgGElement
 import jetbrains.datalore.visualization.base.svg.SvgRectElement
 import jetbrains.datalore.visualization.base.svg.SvgSvgElement
+import jetbrains.datalore.visualization.base.svg.css.CssResource
 import jetbrains.datalore.visualization.plot.base.event.MouseEventSpec.*
 import jetbrains.datalore.visualization.plot.builder.event.MouseEventPeer
 import jetbrains.datalore.visualization.plot.builder.interact.render.TooltipLayer
@@ -66,8 +67,8 @@ class PlotContainer(private val plot: Plot, private val preferredSize: ReadableP
         myContentBuilt = true
 
         svg.setStyle(object : SvgCssResource {
-            override fun css(): String {
-                return Style.css
+            override fun css(): CssResource {
+                return Style.CSS
             }
         })
 

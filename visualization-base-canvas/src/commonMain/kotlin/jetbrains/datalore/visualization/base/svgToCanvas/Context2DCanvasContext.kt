@@ -10,6 +10,7 @@ import jetbrains.datalore.visualization.base.svg.SvgColor
 import jetbrains.datalore.visualization.base.svg.SvgColors
 import jetbrains.datalore.visualization.base.svg.SvgColors.NONE
 import jetbrains.datalore.visualization.base.svg.SvgTransform
+import jetbrains.datalore.visualization.base.svg.css.*
 import jetbrains.datalore.visualization.base.svg.slim.CanvasContext
 import jetbrains.datalore.visualization.base.svgToCanvas.ParsingUtil.Result
 import kotlin.math.PI
@@ -115,7 +116,7 @@ internal class Context2DCanvasContext(private val myContext: Context2d) : Canvas
         restore()
     }
 
-    override fun drawText(x: Double, y: Double, text: String, style: String?, transform: String?,
+    override fun drawText(x: Double, y: Double, text: String, style: Map<StyleType, Any>, transform: String?,
                           fillColor: String?, fillOpacity: Double, strokeColor: String?, strokeOpacity: Double, strokeWidth: Double,
                           textAnchor: String?, textDy: String?) {
         @Suppress("NAME_SHADOWING")
@@ -125,7 +126,9 @@ internal class Context2DCanvasContext(private val myContext: Context2d) : Canvas
 
         drawNextElement(null, transform, fillColor, strokeColor, strokeWidth)
         myContext.setTextBaseline(ALPHABETIC)
-        myContext.setFont(extractFont(style))
+
+        setTextStyle(style)
+
         if (strokeColor != NONE && strokeWidth > 0) {
             myContext.setGlobalAlpha(strokeOpacity)
             myContext.strokeText(text, x, y)
@@ -135,6 +138,12 @@ internal class Context2DCanvasContext(private val myContext: Context2d) : Canvas
         myContext.setTextBaseline(toTextBaseline(textDy))
         myContext.fillText(text, x, y)
         restore()
+    }
+
+    private fun setTextStyle(styleMap: Map<StyleType, Any>) {
+        (styleMap[StyleType.FONT_FAMILY] as? String)?.let { font -> myContext.setFont(font) }
+        (styleMap[StyleType.FONT_SIZE] as? FontSizeValue)?.let { sizeValue -> sizeValue.size } //TODO:
+        (styleMap[StyleType.FILL] as? String)?.let { color -> myContext.setFillColor(color) }
     }
 
     private fun toTextAlign(textAnchor: String?): Context2d.TextAlign {

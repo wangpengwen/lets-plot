@@ -1,4 +1,4 @@
-package jetbrains.datalore.visualization.plot.builder.presentation
+package jetbrains.datalore.visualization.base.svg.css
 
 class CssResourceBuilder {
     private val selectorsMap = mutableMapOf<Selector, MutableMap<StyleType, Any>>()
@@ -31,18 +31,26 @@ class SelectorBuilder {
         }
     }
 
-    private val selectorNames = mutableListOf<Any>()
-    private val styleMap = mutableMapOf<StyleType, Any>()
+    val selectorNames = mutableListOf<Any>()
+    private var styleMap = mutableMapOf<StyleType, Any>()
     private var innerSelector: SelectorBuilder? = null
 
+    fun clone(): SelectorBuilder {
+        val newSelectorBuilder = SelectorBuilder(selectorNames.toList())
+        newSelectorBuilder.innerSelector = this.innerSelector?.clone()
+        newSelectorBuilder.styleMap = this.styleMap.toMutableMap()
+
+        return newSelectorBuilder
+    }
+
     fun innerSelector(selectorName: Any): SelectorBuilder {
-        innerSelector = SelectorBuilder(selectorName)
+        innerSelector = innerSelector?.innerSelector(selectorName) ?: SelectorBuilder(selectorName)
 
         return this
     }
 
     fun innerSelector(selectorNames: List<Any>): SelectorBuilder {
-        innerSelector = SelectorBuilder(selectorNames)
+        innerSelector = innerSelector?.innerSelector(selectorNames) ?: SelectorBuilder(selectorNames)
 
         return this
     }

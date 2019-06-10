@@ -1,5 +1,7 @@
 package jetbrains.datalore.visualization.plot.builder.presentation
 
+import jetbrains.datalore.visualization.base.svg.css.*
+
 object Style {
     const val PLOT_CONTAINER = "plt-container"
     const val PLOT = "plt-plot"

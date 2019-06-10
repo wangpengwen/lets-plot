@@ -1,20 +1,13 @@
 package jetbrains.datalore.visualization.base.svg
 
-class SvgStyleElement(val resource: SvgCssResource) : SvgElement() {
+import jetbrains.datalore.visualization.base.svg.css.CssResource
+
+class SvgStyleElement(resource: SvgCssResource) : SvgElement() {
 
     override val elementName = "style"
+    val cssResource: CssResource = resource.css()
 
     init {
-        setContent(resource.css())
-    }
-
-    fun setContent(content: String) {
-        val children = children()
-        while (!children.isEmpty()) {
-            children.removeAt(0)
-        }
-        val textNode = SvgTextNode(content)
-        children.add(textNode)
         setAttribute("type", "text/css")
     }
 }
