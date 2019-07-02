@@ -3,6 +3,7 @@ package jetbrains.datalore.visualization.base.canvasDom
 import jetbrains.datalore.base.domCore.dom.DomElement
 import jetbrains.datalore.base.domCore.dom.DomWindow
 import jetbrains.datalore.visualization.base.canvas.CanvasControl.AnimationTimer
+import kotlin.browser.window
 
 internal abstract class DomAnimationTimer(private val myElement: DomElement) : AnimationTimer {
     private var myHandle: Int? = null
@@ -29,7 +30,7 @@ internal abstract class DomAnimationTimer(private val myElement: DomElement) : A
         }
 
         myIsStarted = false
-        DomWindow.getWindow().cancelAnimationFrame(myHandle!!)
+        window.cancelAnimationFrame(myHandle!!)
     }
 
     fun execute(millisTime: Double) {
@@ -43,6 +44,6 @@ internal abstract class DomAnimationTimer(private val myElement: DomElement) : A
     }
 
     private fun requestNextFrame() {
-        myHandle = DomWindow.getWindow().requestAnimationFrame { this.execute(it) }
+        myHandle = window.requestAnimationFrame { this.execute(it) }
     }
 }

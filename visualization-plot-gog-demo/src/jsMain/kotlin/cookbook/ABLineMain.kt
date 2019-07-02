@@ -18,11 +18,6 @@ class ABLineMain : ABLine() {
                 variableInterceptAndSlope()
         )
 
-
-        println("FFFFFFFFFFFFFFf")
-        console.log(plotSpecList)
-        println("FFFFFFFFFFFFFFf")
-
         DomDemoUtil.show(viewSize, plotSpecList as List<MutableMap<String, Any>>)
     }
 }

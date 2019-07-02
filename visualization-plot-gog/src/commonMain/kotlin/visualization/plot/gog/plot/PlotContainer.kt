@@ -79,6 +79,7 @@ class PlotContainer(private val myPlot: Plot, private val myPreferredSize: Reada
         }, myLaidOutSize))
 
         svg.children().add(myPlot.rootGroup)
+
         if (myPlot.isInteractionsEnabled) {
             svg.children().add(myDecorationsPanel)
             svg.children().add(myMouseMoveRect)

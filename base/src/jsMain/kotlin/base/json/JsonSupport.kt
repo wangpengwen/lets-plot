@@ -1,22 +1,13 @@
 package jetbrains.datalore.base.json
 
-import kotlinx.serialization.internal.StringSerializer
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.map
-
 actual object JsonSupport {
     actual fun parseJson(json: String): MutableMap<String, Any> {
         val jsonObj = JSON.parse<dynamic>(json)
-        val map = objectToMutableMap(jsonObj)
-        return map
+        return objectToMutableMap(jsonObj)
     }
 
     actual fun toJson(o: Any): String {
-        println(o.toString())
         if (o is Map<*, *>) {
-            println("GGGGGG")
-            println(o["mapping"].toString())
-            println("MAP")
             val d: dynamic = mutateMapToObject(o)
             return JSON.stringify(d)
         } else {
@@ -47,12 +38,13 @@ actual object JsonSupport {
         for (key in keys) {
             var value = o[key]
             if (value is Array<*>) {
-                console.log(value)
                 val list = mutableListOf<Any>()
                 for (el in value) {
-                    list.add(el!!)
+                    list.add(objectToMutableMap(el))
                 }
                 value = list
+            } else if (!(value is Number) && !(value is String)) {
+                value = objectToMutableMap(value)
             }
             map[key] = value
         }

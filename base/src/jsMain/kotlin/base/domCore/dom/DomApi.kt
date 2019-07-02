@@ -1,12 +1,14 @@
 package jetbrains.datalore.base.domCore.dom
 
+import kotlin.browser.window
+
 object DomApi {
 
     val body: DomHTMLElement?
         get() = document.body
 
     val document: DomDocument
-        get() = DomWindow.getDocument()
+        get() = window.document
 
     val active: DomElement?
         get() = document.activeElement
@@ -70,7 +72,7 @@ object DomApi {
     }
 
     fun createElement(tag: String): DomElement {
-        return DomWindow.getDocument().createElement(tag)
+        return document.createElement(tag)
     }
 
     fun createInputText(): InputDomElement {
@@ -110,6 +112,6 @@ object DomApi {
     }
 
     fun assign(url: String) {
-        DomWindow.getWindow().location.assign(url)
+        window.location.assign(url)
     }
 }

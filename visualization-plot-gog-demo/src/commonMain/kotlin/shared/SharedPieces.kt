@@ -108,8 +108,6 @@ object SharedPieces {
             val layerSpec = JsonSupport.parseJson(addedLayerSpecJson)
             layerSpec["data"] = addedData
             addedLayerSpecJson = JsonSupport.toJson(layerSpec)
-            println("MMMMMMMMMMM")
-            println(addedLayerSpecJson)
         }
 
         val spec = "{" +
@@ -118,7 +116,6 @@ object SharedPieces {
 
         val plotSpec = HashMap(JsonSupport.parseJson(spec))
         val data = samplePolygons()
-        //data.putAll(addedData);
         plotSpec["data"] = data
         return plotSpec
     }

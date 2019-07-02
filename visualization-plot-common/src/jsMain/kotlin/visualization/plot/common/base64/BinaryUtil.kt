@@ -5,53 +5,53 @@ import kotlin.browser.window
 
 actual object BinaryUtil {
     actual fun encodeList(l: List<Double?>): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val notNullList = l.map { it ?: Double.NaN }
+        val arr = Float64Array(notNullList.toTypedArray())
+        val bytesView = createBufferByteView(arr.buffer)
+        val binString = toBinString(bytesView)
+
+        return b64encode(binString)
     }
 
     actual fun decodeList(s: String): List<Double> {
-//        byte[] bytes = BaseEncoding.base64().decode(s);
-//        byte[] bytes = Base64Coder.decodeBytes(s);
-
         val binStr = b64decode(s)
         val length = binStr.length
-//        final int length = bytes.length;
 
-        val doubles = ArrayList<Double>(length / 8)
+        val doubles = ArrayList<Double>(length / 16)
 
         val buffer = ArrayBuffer(8)
         val bytesView = createBufferByteView(buffer)
         val doublesView = createBufferDoubleView(buffer)
 
-        for (i in 0 until length / 8) {
-            val pos = i * 8
+        for (i in 0 until length / 16) {
+            val pos = i * 16
+            val bytes = Array<Byte>(8) {
+                val bytePos = pos + it * 2
+                binStr.slice(bytePos .. bytePos + 1).toInt(16).toByte()
+            }
             decodeDouble(
-                    /*
-                    bytes[pos + 7],
-                    bytes[pos + 6],
-                    bytes[pos + 5],
-                    bytes[pos + 4],
-                    bytes[pos + 3],
-                    bytes[pos + 2],
-                    bytes[pos + 1],
-                    bytes[pos],
-                    */
-                    binStr[pos + 7].toByte(),
-                    binStr[pos + 6].toByte(),
-                    binStr[pos + 5].toByte(),
-                    binStr[pos + 4].toByte(),
-                    binStr[pos + 3].toByte(),
-                    binStr[pos + 2].toByte(),
-                    binStr[pos + 1].toByte(),
-                    binStr[pos].toByte(),
+                    bytes,
                     bytesView
             )
-            doubles.add(doublesView.get(0))
+            doubles.add(doublesView[0])
         }
         return doubles
     }
 
+    private fun toBinString(arr: Uint8Array): String {
+        var str = ""
+        for (i in 0 until arr.length) {
+            str += arr[i].toString(16).padStart(2, '0')
+        }
+        return str
+    }
+
     private fun b64decode(a: String): String {
         return window.atob(a)
+    }
+
+    private fun b64encode(a: String): String {
+        return window.btoa(a)
     }
 
     private fun createBufferByteView(buf: ArrayBuffer): Uint8Array {
@@ -63,23 +63,16 @@ actual object BinaryUtil {
     }
 
     private fun decodeDouble(
-            b0: Byte,
-            b1: Byte,
-            b2: Byte,
-            b3: Byte,
-            b4: Byte,
-            b5: Byte,
-            b6: Byte,
-            b7: Byte,
+            arr: Array<Byte>,
             byteView: Uint8Array
     ) {
-        byteView[0] = b0
-        byteView[1] = b1
-        byteView[2] = b2
-        byteView[3] = b3
-        byteView[4] = b4
-        byteView[5] = b5
-        byteView[6] = b6
-        byteView[7] = b7
+        byteView[0] = arr[0]
+        byteView[1] = arr[1]
+        byteView[2] = arr[2]
+        byteView[3] = arr[3]
+        byteView[4] = arr[4]
+        byteView[5] = arr[5]
+        byteView[6] = arr[6]
+        byteView[7] = arr[7]
     }
 }

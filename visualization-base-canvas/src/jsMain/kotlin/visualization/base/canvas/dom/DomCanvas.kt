@@ -11,6 +11,7 @@ import jetbrains.datalore.base.domCore.dom.context2d
 import jetbrains.datalore.base.geometry.Vector
 import jetbrains.datalore.visualization.base.canvas.Canvas
 import jetbrains.datalore.visualization.base.canvas.ScaledCanvas
+import kotlin.browser.window
 import kotlin.math.ceil
 
 internal class DomCanvas private constructor(val domHTMLCanvasElement: DomHTMLCanvasElement, size: Vector, pixelRatio: Double)
@@ -33,7 +34,7 @@ internal class DomCanvas private constructor(val domHTMLCanvasElement: DomHTMLCa
     }
 
     companion object {
-        private val DEVICE_PIXEL_RATIO = DomWindow.getWindow().devicePixelRatio
+        private val DEVICE_PIXEL_RATIO = window.devicePixelRatio
 
         fun create(size: Vector): DomCanvas {
             return DomCanvas(DomApi.createCanvas(), size, DEVICE_PIXEL_RATIO)

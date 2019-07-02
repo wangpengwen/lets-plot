@@ -34,8 +34,6 @@ open class ABLine : DemoBase() {
             }
         """.trimIndent()
 
-        println(SharedPieces.samplePolyAndPointsPlotWith(abLine, emptyMap()))
-
         return SharedPieces.samplePolyAndPointsPlotWith(abLine, emptyMap())
     }
 

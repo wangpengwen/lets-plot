@@ -11,7 +11,6 @@ object DomDemoUtil {
     fun show(viewSize: DoubleVector, plotSpecList: List<MutableMap<String, Any>>) {
         val container = document.getElementById("root")
         for (plotSpec in plotSpecList) {
-            js("console").log((plotSpec["layers"] as ArrayList<*>)[0])
             val component = createComponent(viewSize, plotSpec)
 
             container!!.appendChild(component)

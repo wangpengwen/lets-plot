@@ -83,10 +83,6 @@ abstract class PlotConfig protected constructor(opts: Map<String, Any>) : Option
         val layerOptionsList = getList(LAYERS)
         for (layerOptions in layerOptionsList) {
 
-            println(layerOptions!!::class.simpleName)
-            if (layerOptions is Array<*>) {
-                println(layerOptions[0])
-            }
             checkArgument(layerOptions is Map<*, *>, "Layer options: expected Map but was " + layerOptions!!::class.simpleName)
             val layerConfig = createLayerConfig(layerOptions as Map<*, *>,
                     sharedData,

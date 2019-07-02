@@ -15,7 +15,7 @@ class DomCanvasControl(override val size: Vector) : CanvasControl {
     val rootElement: DomHTMLElement = DomApi.createDiv() as DomHTMLElement
 
     init {
-        rootElement.style.setPosition(CssPosition.RELATIVE)
+        //rootElement.style.setPosition(CssPosition.RELATIVE)
     }
 
     override fun createAnimationTimer(eventHandler: CanvasControl.AnimationEventHandler): CanvasControl.AnimationTimer {
@@ -32,7 +32,7 @@ class DomCanvasControl(override val size: Vector) : CanvasControl {
 
     override fun createCanvas(size: Vector): Canvas {
         val domCanvas = DomCanvas.create(size)
-        domCanvas.domHTMLCanvasElement.style.setPosition(CssPosition.ABSOLUTE)
+        //domCanvas.domHTMLCanvasElement.style.setPosition(CssPosition.ABSOLUTE)
         return domCanvas
     }
 
