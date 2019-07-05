@@ -8,7 +8,7 @@ import jetbrains.datalore.visualization.gogDemo.shared.DemoUtil.gauss
 import jetbrains.datalore.visualization.gogDemo.shared.DemoUtil.zip
 
 /**
- * See 'Plotting distributions'
+ * See \"Plotting distributions\"
  * http://www.cookbook-r.com/Graphs/Plotting_distributions_(ggplot2)/
  */
 open class BoxPlot : DemoBase() {
@@ -45,14 +45,14 @@ open class BoxPlot : DemoBase() {
 
         fun basic(): Map<String, Any> {
             val spec = "{" +
-                    "   'mapping': {" +
-                    "             'x': 'cond'," +
-                    "             'y': 'rating'" +
+                    "   \"mapping\": {" +
+                    "             \"x\": \"cond\"," +
+                    "             \"y\": \"rating\"" +
                     "           }," +
 
-                    "   'layers': [" +
+                    "   \"layers\": [" +
                     "               {" +
-                    "                  'geom': 'boxplot'" +
+                    "                  \"geom\": \"boxplot\"" +
                     "               }" +
                     "           ]" +
                     "}"
@@ -64,15 +64,15 @@ open class BoxPlot : DemoBase() {
 
         fun withVarWidth(): Map<String, Any> {
             val spec = "{" +
-                    "   'mapping': {" +
-                    "             'x': 'cond'," +
-                    "             'y': 'rating'" +
+                    "   \"mapping\": {" +
+                    "             \"x\": \"cond\"," +
+                    "             \"y\": \"rating\"" +
                     "           }," +
 
-                    "   'layers': [" +
+                    "   \"layers\": [" +
                     "               {" +
-                    "                  'geom': 'boxplot'," +
-                    "                  'varwidth': true" +
+                    "                  \"geom\": \"boxplot\"," +
+                    "                  \"varwidth\": true" +
                     "               }" +
                     "           ]" +
                     "}"
@@ -84,15 +84,15 @@ open class BoxPlot : DemoBase() {
 
         fun withCondColored(): Map<String, Any> {
             val spec = "{" +
-                    "   'mapping': {" +
-                    "             'x': 'cond'," +
-                    "             'y': 'rating'," +
-                    "             'fill': 'cond'" +
+                    "   \"mapping\": {" +
+                    "             \"x\": \"cond\"," +
+                    "             \"y\": \"rating\"," +
+                    "             \"fill\": \"cond\"" +
                     "           }," +
 
-                    "   'layers': [" +
+                    "   \"layers\": [" +
                     "               {" +
-                    "                  'geom': 'boxplot'" +
+                    "                  \"geom\": \"boxplot\"" +
                     "               }" +
                     "           ]" +
                     "}"
@@ -104,17 +104,17 @@ open class BoxPlot : DemoBase() {
 
         fun withOutlierOverride(): Map<String, Any> {
             val spec = "{" +
-                    "   'mapping': {" +
-                    "             'x': 'cond'," +
-                    "             'y': 'rating'" +
+                    "   \"mapping\": {" +
+                    "             \"x\": \"cond\"," +
+                    "             \"y\": \"rating\"" +
                     "           }," +
 
-                    "   'layers': [" +
+                    "   \"layers\": [" +
                     "               {" +
-                    "                  'geom': 'boxplot'," +
-                    "                  'outlier_color': 'red'," +
-                    "                  'outlier_shape': 1," +
-                    "                  'outlier_size': 3" +
+                    "                  \"geom\": \"boxplot\"," +
+                    "                  \"outlier_color\": \"red\"," +
+                    "                  \"outlier_shape\": 1," +
+                    "                  \"outlier_size\": 3" +
                     "               }" +
                     "           ]" +
                     "}"
@@ -126,15 +126,15 @@ open class BoxPlot : DemoBase() {
 
         fun withGrouping(): Map<String, Any> {
             val spec = "{" +
-                    "   'mapping': {" +
-                    "             'x': 'cond'," +
-                    "             'y': 'rating'," +
-                    "             'color': 'group'" +
+                    "   \"mapping\": {" +
+                    "             \"x\": \"cond\"," +
+                    "             \"y\": \"rating\"," +
+                    "             \"color\": \"group\"" +
                     "           }," +
 
-                    "   'layers': [" +
+                    "   \"layers\": [" +
                     "               {" +
-                    "                  'geom': 'boxplot'" +
+                    "                  \"geom\": \"boxplot\"" +
                     "               }" +
                     "           ]" +
                     "}"
@@ -146,16 +146,16 @@ open class BoxPlot : DemoBase() {
 
         fun withGroupingAndVarWidth(): Map<String, Any> {
             val spec = "{" +
-                    "   'mapping': {" +
-                    "             'x': 'cond'," +
-                    "             'y': 'rating'," +
-                    "             'color': 'group'" +
+                    "   \"mapping\": {" +
+                    "             \"x\": \"cond\"," +
+                    "             \"y\": \"rating\"," +
+                    "             \"color\": \"group\"" +
                     "           }," +
 
-                    "   'layers': [" +
+                    "   \"layers\": [" +
                     "               {" +
-                    "                  'geom': 'boxplot'," +
-                    "                  'varwidth': true" +
+                    "                  \"geom\": \"boxplot\"," +
+                    "                  \"varwidth\": true" +
                     "               }" +
                     "           ]" +
                     "}"

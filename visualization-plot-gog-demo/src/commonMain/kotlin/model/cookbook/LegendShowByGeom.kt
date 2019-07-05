@@ -17,28 +17,28 @@ open class LegendShowByGeom : DemoBase() {
         }
 
         private val LINES_DATA = "   {" +
-                "      'c': ['Line A', 'Line A', 'Line A', 'Line B', 'Line B', 'Line B']," +
-                "      'x': [1, 2, 3, 1, 2, 3]," +
-                "      'y': [1, 2, 1.5, 1.5, 0.5, 2.5]" +
+                "      \"c\": [\"Line A\", \"Line A\", \"Line A\", \"Line B\", \"Line B\", \"Line B\"]," +
+                "      \"x\": [1, 2, 3, 1, 2, 3]," +
+                "      \"y\": [1, 2, 1.5, 1.5, 0.5, 2.5]" +
                 "   }"
 
         private val POINTS_DATA = "   {" +
-                "      'c': ['Point X', 'Point Y', 'Point Z']," +
-                "      'x': [1.5, 2, 3]," +
-                "      'y': [2, 1.5, 1]" +
+                "      \"c\": [\"Point X\", \"Point Y\", \"Point Z\"]," +
+                "      \"x\": [1.5, 2, 3]," +
+                "      \"y\": [2, 1.5, 1]" +
                 "   }"
 
         private fun linesLayer(disableLegend: Boolean): String {
 
             return "{" +
-                    (if (disableLegend) "'show_legend': false," else "") +
-                    "  'geom':  'line'," +
-                    "  'stat': 'identity'," +
-                    "  'data': " + LINES_DATA + "," +
-                    "  'mapping': {" +
-                    "            'x': 'x'," +
-                    "            'y': 'y'," +
-                    "            'color': 'c'" +
+                    (if (disableLegend) "\"show_legend\": false," else "") +
+                    "  \"geom\":  \"line\"," +
+                    "  \"stat\": \"identity\"," +
+                    "  \"data\": " + LINES_DATA + "," +
+                    "  \"mapping\": {" +
+                    "            \"x\": \"x\"," +
+                    "            \"y\": \"y\"," +
+                    "            \"color\": \"c\"" +
                     "             }" +
                     "}"
         }
@@ -46,22 +46,22 @@ open class LegendShowByGeom : DemoBase() {
         private fun pointsLayer(disableLegend: Boolean): String {
 
             return "{" +
-                    (if (disableLegend) "'show_legend': false," else "") +
-                    "  'geom':  'point'," +
-                    "  'stat': 'identity'," +
-                    "  'data': " + POINTS_DATA + "," +
-                    "  'mapping': {" +
-                    "            'x': 'x'," +
-                    "            'y': 'y'," +
-                    "            'color': 'c'" +
+                    (if (disableLegend) "\"show_legend\": false," else "") +
+                    "  \"geom\":  \"point\"," +
+                    "  \"stat\": \"identity\"," +
+                    "  \"data\": " + POINTS_DATA + "," +
+                    "  \"mapping\": {" +
+                    "            \"x\": \"x\"," +
+                    "            \"y\": \"y\"," +
+                    "            \"color\": \"c\"" +
                     "          }," +
-                    "  'size': 5" +
+                    "  \"size\": 5" +
                     "}"
         }
 
         fun defaultLegend(): Map<String, Any> {
             val spec = "{" +
-                    "'layers': [" +
+                    "\"layers\": [" +
                     linesLayer(false) +
                     "," +
                     pointsLayer(false) +
@@ -73,7 +73,7 @@ open class LegendShowByGeom : DemoBase() {
 
         fun noLinesLegend(): Map<String, Any> {
             val spec = "{" +
-                    "'layers': [" +
+                    "\"layers\": [" +
                     linesLayer(true) +
                     "," +
                     pointsLayer(false) +
@@ -85,7 +85,7 @@ open class LegendShowByGeom : DemoBase() {
 
         fun noBothLegends(): Map<String, Any> {
             val spec = "{" +
-                    "'layers': [" +
+                    "\"layers\": [" +
                     linesLayer(true) +
                     "," +
                     pointsLayer(true) +

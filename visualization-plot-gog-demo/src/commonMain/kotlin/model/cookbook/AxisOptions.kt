@@ -24,33 +24,36 @@ open class AxisOptions : DemoBase() {
         }
 
         private fun title(s: String): String {
-            return "   'ggtitle': {" +
-                    "                 'text': '" + s + "'" +
-                    "              }" +
-                    ""
+            return """
+                "ggtitle": {
+                    "text": "$s"
+                }
+            """.trimIndent()
         }
 
         private fun layerMapping(): String {
-            return "   'mapping': {" +
-                    "             'x': 'x'," +
-                    "             'y': 'y'" +
-                    "           }," +
-                    "   'layers': [" +
-                    "               {" +
-                    "                 'geom': 'point'," +
-                    "                 'size': 5" +
-                    "               }" +
-                    "           ]" +
-                    ""
+            return  """
+                "mapping": {
+                    "x": "x",
+                    "y": "y"
+                },
+                "layers": [
+                    {
+                        "geom": "point",
+                        "size": 5
+                    }
+                ]
+            """.trimIndent()
         }
 
 
         fun defaultAxis(): Map<String, Any> {
-            val spec = "{" +
-                    layerMapping() +
-                    "," +
-                    title("Default") +
-                    "}"
+            val spec = """
+                {
+                    ${layerMapping()},
+                    ${title("Default")}
+                }
+            """.trimIndent()
 
             val plotSpec = HashMap(JsonSupport.parseJson(spec))
             plotSpec["data"] = data()
@@ -58,16 +61,15 @@ open class AxisOptions : DemoBase() {
         }
 
         fun noXTitle(): Map<String, Any> {
-            val spec = "{" +
-                    layerMapping() +
-                    "," +
-                    title("No X title") +
-                    "," +
-                    "    'theme': {" +
-                    "                'axis_title_x': {'name': 'blank'}" +  // element_blank()
-
-                    "             }" +
-                    "}"
+            val spec = """
+                {
+                    ${layerMapping()},
+                    ${title("No X title")},
+                    "theme": {
+                        "axis_title_x": { "name": "blank" }
+                    }
+                }
+            """.trimIndent()
 
             val plotSpec = HashMap(JsonSupport.parseJson(spec))
             plotSpec["data"] = data()
@@ -80,8 +82,8 @@ open class AxisOptions : DemoBase() {
                     "," +
                     title("No Y title") +
                     "," +
-                    "    'theme': {" +
-                    "                'axis_title_y': {'name': 'blank'}" +  // element_blank()
+                    "    \"theme\": {" +
+                    "                \"axis_title_y\": {\"name\": \"blank\"}" +  // element_blank()
 
                     "             }" +
                     "}"
@@ -97,8 +99,8 @@ open class AxisOptions : DemoBase() {
                     "," +
                     title("No X tick labels") +
                     "," +
-                    "    'theme': {" +
-                    "                'axis_text_x': {'name': 'blank'}" +  // element_blank()
+                    "    \"theme\": {" +
+                    "                \"axis_text_x\": {\"name\": \"blank\"}" +  // element_blank()
 
                     "             }" +
                     "}"
@@ -114,8 +116,8 @@ open class AxisOptions : DemoBase() {
                     "," +
                     title("No Y tick labels") +
                     "," +
-                    "    'theme': {" +
-                    "                'axis_text_y': {'name': 'blank'}" +  // element_blank()
+                    "    \"theme\": {" +
+                    "                \"axis_text_y\": {\"name\": \"blank\"}" +  // element_blank()
 
                     "             }" +
                     "}"
@@ -131,8 +133,8 @@ open class AxisOptions : DemoBase() {
                     "," +
                     title("No tick marks") +
                     "," +
-                    "    'theme': {" +
-                    "                'axis_ticks': {'name': 'blank'}" +  // element_blank()
+                    "    \"theme\": {" +
+                    "                \"axis_ticks\": {\"name\": \"blank\"}" +  // element_blank()
 
                     "             }" +
                     "}"
@@ -148,10 +150,10 @@ open class AxisOptions : DemoBase() {
                     "," +
                     title("No tick marks or labels") +
                     "," +
-                    "    'theme': {" +
-                    "                'axis_ticks': {'name': 'blank'}," +  // element_blank()
+                    "    \"theme\": {" +
+                    "                \"axis_ticks\": {\"name\": \"blank\"}," +  // element_blank()
 
-                    "                'axis_text': {'name': 'blank'}" +
+                    "                \"axis_text\": {\"name\": \"blank\"}" +
                     "             }" +
                     "}"
 
@@ -166,10 +168,10 @@ open class AxisOptions : DemoBase() {
                     "," +
                     title("No titles or labels") +
                     "," +
-                    "    'theme': {" +
-                    "                'axis_title': {'name': 'blank'}," +  // element_blank()
+                    "    \"theme\": {" +
+                    "                \"axis_title\": {\"name\": \"blank\"}," +  // element_blank()
 
-                    "                'axis_text': {'name': 'blank'}" +
+                    "                \"axis_text\": {\"name\": \"blank\"}" +
                     "             }" +
                     "}"
 
@@ -184,11 +186,11 @@ open class AxisOptions : DemoBase() {
                     "," +
                     title("No titles, labels or tick marks") +
                     "," +
-                    "    'theme': {" +
-                    "                'axis_title': {'name': 'blank'}," +  // element_blank()
+                    "    \"theme\": {" +
+                    "                \"axis_title\": {\"name\": \"blank\"}," +  // element_blank()
 
-                    "                'axis_text': {'name': 'blank'}," +
-                    "                'axis_ticks': {'name': 'blank'}" +
+                    "                \"axis_text\": {\"name\": \"blank\"}," +
+                    "                \"axis_ticks\": {\"name\": \"blank\"}" +
                     "             }" +
                     "}"
 
@@ -203,10 +205,10 @@ open class AxisOptions : DemoBase() {
                     "," +
                     title("No titles, no lines") +
                     "," +
-                    "    'theme': {" +
-                    "                'axis_title': {'name': 'blank'}," +  // element_blank()
+                    "    \"theme\": {" +
+                    "                \"axis_title\": {\"name\": \"blank\"}," +  // element_blank()
 
-                    "                'axis_line': {'name': 'blank'}" +
+                    "                \"axis_line\": {\"name\": \"blank\"}" +
                     "             }" +
                     "}"
 

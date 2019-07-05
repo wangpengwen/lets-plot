@@ -6,20 +6,20 @@ import jetbrains.datalore.visualization.gogDemo.shared.DemoUtil
 import kotlin.math.abs
 
 /**
- * See 'Plotting distributions'
+ * See \"Plotting distributions\"
  * http://www.cookbook-r.com/Graphs/Plotting_distributions_(ggplot2)/
  */
 open class Histogram : DemoBase() {
 
     protected fun basic(): Map<String, Any> {
         val spec = "{" +
-                "   'mapping': {" +
-                "             'x': 'x'" +
+                "   \"mapping\": {" +
+                "             \"x\": \"x\"" +
                 "           }," +
 
-                "   'layers': [" +
+                "   \"layers\": [" +
                 "               {" +
-                "                  'geom': 'histogram'" +
+                "                  \"geom\": \"histogram\"" +
                 "               }" +
                 "           ]" +
                 "}"
@@ -51,15 +51,15 @@ open class Histogram : DemoBase() {
 
         fun withConstantWeight(): Map<String, Any> {
             val spec = "{" +
-                    "   'mapping': {" +
-                    "             'x': 'x'" +
+                    "   \"mapping\": {" +
+                    "             \"x\": \"x\"" +
                     "           }," +
 
-                    "   'layers': [" +
+                    "   \"layers\": [" +
                     "               {" +
-                    "                  'geom': 'histogram'," +
-                    "                  'fill': 'orange'," +
-                    "                  'weight': 10" +
+                    "                  \"geom\": \"histogram\"," +
+                    "                  \"fill\": \"orange\"," +
+                    "                  \"weight\": 10" +
                     "               }" +
                     "           ]" +
                     "}"
@@ -71,14 +71,14 @@ open class Histogram : DemoBase() {
 
         fun withWeights(): Map<String, Any> {
             val spec = "{" +
-                    "   'mapping': {" +
-                    "             'x': 'x'," +
-                    "             'weight': 'weight'" +
+                    "   \"mapping\": {" +
+                    "             \"x\": \"x\"," +
+                    "             \"weight\": \"weight\"" +
                     "           }," +
 
-                    "   'layers': [" +
+                    "   \"layers\": [" +
                     "               {" +
-                    "                  'geom': 'histogram'" +
+                    "                  \"geom\": \"histogram\"" +
                     "               }" +
                     "           ]" +
                     "}"

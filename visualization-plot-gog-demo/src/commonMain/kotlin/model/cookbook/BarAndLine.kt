@@ -20,22 +20,22 @@ open class BarAndLine : DemoBase() {
         }
 
         private val OUR_DATA = "   {" +
-                "      'time': ['Lunch', 'Dinner']," +
-                "      'total_bill': [14.89, 17.23]" +
+                "      \"time\": [\"Lunch\", \"Dinner\"]," +
+                "      \"total_bill\": [14.89, 17.23]" +
                 "   }"
 
         fun defaultBarDiscreteX(): Map<String, Any> {
             val spec = "{" +
-                    "   'data': " + OUR_DATA +
+                    "   \"data\": " + OUR_DATA +
                     "           ," +
-                    "   'mapping': {" +
-                    "             'x': 'time'," +
-                    "             'y': 'total_bill'" +
+                    "   \"mapping\": {" +
+                    "             \"x\": \"time\"," +
+                    "             \"y\": \"total_bill\"" +
                     "           }," +
-                    "   'layers': [" +
+                    "   \"layers\": [" +
                     "               {" +
-                    "                 'geom': 'bar'," +
-                    "                 'stat': 'identity'" +
+                    "                 \"geom\": \"bar\"," +
+                    "                 \"stat\": \"identity\"" +
                     "               }" +
                     "           ]" +
                     "}"
@@ -45,17 +45,17 @@ open class BarAndLine : DemoBase() {
 
         fun barDiscreteXFill(): Map<String, Any> {
             val spec = "{" +
-                    "   'data': " + OUR_DATA +
+                    "   \"data\": " + OUR_DATA +
                     "           ," +
-                    "   'mapping': {" +
-                    "             'x': 'time'," +
-                    "             'y': 'total_bill'," +
-                    "             'fill': 'time'" +
+                    "   \"mapping\": {" +
+                    "             \"x\": \"time\"," +
+                    "             \"y\": \"total_bill\"," +
+                    "             \"fill\": \"time\"" +
                     "           }," +
-                    "   'layers': [" +
+                    "   \"layers\": [" +
                     "               {" +
-                    "                 'geom': 'bar'," +
-                    "                 'stat': 'identity'" +
+                    "                 \"geom\": \"bar\"," +
+                    "                 \"stat\": \"identity\"" +
                     "               }" +
                     "           ]" +
                     "}"
@@ -66,18 +66,18 @@ open class BarAndLine : DemoBase() {
         fun barDiscreteXFillMappedInGeom(): Map<String, Any> {
             // Must be same result as in the method above
             val spec = "{" +
-                    "   'data': " + OUR_DATA +
+                    "   \"data\": " + OUR_DATA +
                     "           ," +
-                    "   'mapping': {" +
-                    "             'x': 'time'," +
-                    "             'y': 'total_bill'" +
+                    "   \"mapping\": {" +
+                    "             \"x\": \"time\"," +
+                    "             \"y\": \"total_bill\"" +
                     "           }," +
-                    "   'layers': [" +
+                    "   \"layers\": [" +
                     "               {" +
-                    "                 'geom': 'bar'," +
-                    "                 'stat': 'identity'," +
-                    "                 'mapping': {" +
-                    "                              'fill': 'time'" +
+                    "                 \"geom\": \"bar\"," +
+                    "                 \"stat\": \"identity\"," +
+                    "                 \"mapping\": {" +
+                    "                              \"fill\": \"time\"" +
                     "                            }" +
                     "               }" +
                     "           ]" +
@@ -88,18 +88,18 @@ open class BarAndLine : DemoBase() {
 
         fun barDiscreteXFillAndBlackOutline(): Map<String, Any> {
             val spec = "{" +
-                    "   'data': " + OUR_DATA +
+                    "   \"data\": " + OUR_DATA +
                     "           ," +
-                    "   'mapping': {" +
-                    "             'x': 'time'," +
-                    "             'y': 'total_bill'," +
-                    "             'fill': 'time'" +
+                    "   \"mapping\": {" +
+                    "             \"x\": \"time\"," +
+                    "             \"y\": \"total_bill\"," +
+                    "             \"fill\": \"time\"" +
                     "           }," +
-                    "   'layers': [" +
+                    "   \"layers\": [" +
                     "               {" +
-                    "                 'geom': 'bar'," +
-                    "                 'stat': 'identity'," +
-                    "                 'colour': 'black'" +
+                    "                 \"geom\": \"bar\"," +
+                    "                 \"stat\": \"identity\"," +
+                    "                 \"colour\": \"black\"" +
                     "               }" +
                     "           ]" +
                     "}"
@@ -109,34 +109,34 @@ open class BarAndLine : DemoBase() {
 
         fun barDiscreteXTitleAxisLabelsNarrowWidth(): Map<String, Any> {
             val spec = "{" +
-                    "   'data': " + OUR_DATA +
+                    "   \"data\": " + OUR_DATA +
                     "           ," +
-                    "   'mapping': {" +
-                    "             'x': 'time'," +
-                    "             'y': 'total_bill'," +
-                    "             'fill': 'time'" +
+                    "   \"mapping\": {" +
+                    "             \"x\": \"time\"," +
+                    "             \"y\": \"total_bill\"," +
+                    "             \"fill\": \"time\"" +
                     "           }," +
-                    "   'layers': [" +
+                    "   \"layers\": [" +
                     "               {" +
-                    "                 'geom': 'bar'," +
-                    "                 'stat': 'identity'," +
-                    "                 'colour': 'black'," +
-                    "                 'fill': '#DD8888'," +
-                    "                 'width': 0.8" +
+                    "                 \"geom\": \"bar\"," +
+                    "                 \"stat\": \"identity\"," +
+                    "                 \"colour\": \"black\"," +
+                    "                 \"fill\": \"#DD8888\"," +
+                    "                 \"width\": 0.8" +
                     "               }" +
                     "           ]," +
-                    "   'scales': [" +
+                    "   \"scales\": [" +
                     "               {" +
-                    "                  'aesthetic': 'x'," +
-                    "                  'name': 'Time of day'" +
+                    "                  \"aesthetic\": \"x\"," +
+                    "                  \"name\": \"Time of day\"" +
                     "               }," +
                     "               {" +
-                    "                  'aesthetic': 'y'," +
-                    "                  'name': 'Total bill'" +
+                    "                  \"aesthetic\": \"y\"," +
+                    "                  \"name\": \"Total bill\"" +
                     "               }" +
                     "           ]," +
-                    "   'ggtitle': {" +
-                    "                 'text': 'Average bill for 2 people'" +
+                    "   \"ggtitle\": {" +
+                    "                 \"text\": \"Average bill for 2 people\"" +
                     "               }" +
                     "}"
 

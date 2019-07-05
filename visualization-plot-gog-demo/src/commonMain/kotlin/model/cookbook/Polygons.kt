@@ -19,18 +19,18 @@ open class Polygons : DemoBase() {
 
         fun basic(): Map<String, Any> {
             val spec = "{" +
-                    //        "   'data': " + ourData +
+                    //        "   \"data\": " + ourData +
                     //        "           ," +
-                    "   'mapping': {" +
-                    "             'x': 'x'," +
-                    "             'y': 'y'" +
+                    "   \"mapping\": {" +
+                    "             \"x\": \"x\"," +
+                    "             \"y\": \"y\"" +
                     "           }," +
-                    "   'layers': [" +
+                    "   \"layers\": [" +
                     "               {" +
-                    "                  'geom': 'polygon'," +
-                    "                  'mapping': {" +
-                    "                               'fill': 'value'," +
-                    "                               'group': 'id'" +
+                    "                  \"geom\": \"polygon\"," +
+                    "                  \"mapping\": {" +
+                    "                               \"fill\": \"value\"," +
+                    "                               \"group\": \"id\"" +
                     "                              }" +
                     "               }" +
                     "           ]" +

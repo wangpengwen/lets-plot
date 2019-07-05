@@ -17,19 +17,19 @@ open class BarPlot : DemoBase() {
         }
 
         private val OUR_DATA = "   {" +
-                "      'time': ['Lunch','Lunch', 'Dinner', 'Dinner', 'Dinner']" +
+                "      \"time\": [\"Lunch\",\"Lunch\", \"Dinner\", \"Dinner\", \"Dinner\"]" +
                 "   }"
 
         fun basic(): Map<String, Any> {
             val spec = "{" +
-                    "   'data': " + OUR_DATA +
+                    "   \"data\": " + OUR_DATA +
                     "           ," +
-                    "   'mapping': {" +
-                    "             'x': 'time'" +
+                    "   \"mapping\": {" +
+                    "             \"x\": \"time\"" +
                     "           }," +
-                    "   'layers': [" +
+                    "   \"layers\": [" +
                     "               {" +
-                    "                  'geom': 'bar'" +
+                    "                  \"geom\": \"bar\"" +
                     "               }" +
                     "           ]" +
                     "}"
@@ -39,25 +39,25 @@ open class BarPlot : DemoBase() {
 
         fun fancy(): Map<String, Any> {
             val spec = "{" +
-                    "   'data': " + OUR_DATA +
+                    "   \"data\": " + OUR_DATA +
                     "           ," +
-                    "   'mapping': {" +
-                    "             'x': 'time'," +
-                    "             'y': '..count..'," +
-                    "             'fill': '..count..'" +
+                    "   \"mapping\": {" +
+                    "             \"x\": \"time\"," +
+                    "             \"y\": \"..count..\"," +
+                    "             \"fill\": \"..count..\"" +
                     "           }," +
-                    "   'layers': [" +
+                    "   \"layers\": [" +
                     "               {" +
-                    "                  'geom': 'bar'" +
+                    "                  \"geom\": \"bar\"" +
                     "               }" +
                     "           ]" +
 
                     "   ," +
-                    "   'scales': [" +
+                    "   \"scales\": [" +
                     "               {" +
-                    "                  'aesthetic': 'fill'," +
-                    "                  'discrete': true," +
-                    "                  'scale_mapper_kind': 'color_hue'" +
+                    "                  \"aesthetic\": \"fill\"," +
+                    "                  \"discrete\": true," +
+                    "                  \"scale_mapper_kind\": \"color_hue\"" +
                     "               }" +
                     "           ]" +
                     "}"
