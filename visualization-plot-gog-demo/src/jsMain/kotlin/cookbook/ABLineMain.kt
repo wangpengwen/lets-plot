@@ -3,7 +3,7 @@ package jetbrains.datalore.visualization.gogDemo.cookbook
 import jetbrains.datalore.visualization.gogDemo.DomDemoUtil
 import jetbrains.datalore.visualization.gogDemo.model.cookbook.ABLine
 
-fun main(args: Array<String>) {
+fun mainn(args: Array<String>) {
     ABLineMain().show()
 }
 

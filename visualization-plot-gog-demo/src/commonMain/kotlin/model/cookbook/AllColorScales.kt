@@ -109,25 +109,27 @@ open class AllColorScales : DemoBase() {
         }
 
         private fun specWithColorScale(data: List<*>, scaleParams: Map<String, Any>): String {
-            return "{" +
-                    "   'data': {'x':" + toJsonValue(data) + "}," +
-                    "   'mapping': {'x':'x', 'color':'x', 'fill':'x'}," +
-                    "   'layers': [" +
-                    "               {" +
-                    "                  'geom': 'tile'," +
-                    "                  'width': 1.0," +
-                    "                  'height': 10.0" +
-                    "               }" +
-                    "           ]," +
-                    "   'scales': [" +
-                    "               {" +
-                    "                  'aesthetic': 'fill'" + scaleParamsAsJsonPart(scaleParams) +
-                    "               }," +
-                    "               {" +
-                    "                  'aesthetic': 'color'" + scaleParamsAsJsonPart(scaleParams) +
-                    "               }" +
-                    "           ]" +
-                    "}"
+            return """
+                {
+                    "data": { "x": ${toJsonValue(data)} },
+                    "mapping": { "x": "x", "color": "x", "fill": "x" },
+                    "layers": [
+                        {
+                            "geom": "tile",
+                            "width": 1.0,
+                            "height": 10.0
+                        }
+                    ],
+                    "scales": [
+                        {
+                            "aesthetic": "fill"${scaleParamsAsJsonPart(scaleParams)}
+                        },
+                        {
+                            "aesthetic": "color"${scaleParamsAsJsonPart(scaleParams)}
+                        }
+                    ]
+                }
+            """.trimIndent()
         }
 
         fun color_gradient(): Map<String, Any> {

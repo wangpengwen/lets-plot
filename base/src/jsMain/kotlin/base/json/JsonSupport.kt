@@ -40,7 +40,11 @@ actual object JsonSupport {
             if (value is Array<*>) {
                 val list = mutableListOf<Any>()
                 for (el in value) {
-                    list.add(objectToMutableMap(el))
+                    if (el is Number || el is String) {
+                        list.add(el)
+                    } else {
+                        list.add(objectToMutableMap(el))
+                    }
                 }
                 value = list
             } else if (!(value is Number) && !(value is String)) {
