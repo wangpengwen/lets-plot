@@ -75,7 +75,15 @@ class NumberFormat(private val spec: Spec) {
 
 
     fun apply(num: Number): String {
-        val numberInfo = createNumberInfo(num)
+        val doubleValue = num.toDouble()
+        when {
+            doubleValue.isNaN() -> return "NaN"
+            doubleValue == Double.POSITIVE_INFINITY -> return "\u221e"
+            doubleValue == Double.NEGATIVE_INFINITY -> return "\u221e"
+            else -> Unit
+        }
+
+        val numberInfo = createNumberInfo(doubleValue)
         var output = Output()
 
         output = computeBody(output, numberInfo)
@@ -252,14 +260,13 @@ class NumberFormat(private val spec: Spec) {
             )
         }
 
-        private fun createNumberInfo(num: Number): NumberInfo {
-            val negative = num.toDouble() < 0.0
-            val number = num.toDouble().absoluteValue
+        private fun createNumberInfo(num: Double): NumberInfo {
+            val negative = num < 0.0
 
             val integerPart: Long
             val fractionPart: Long
 
-            val str = number.toString().toLowerCase()
+            val str = num.absoluteValue.toString().toLowerCase()
             val numberRegex = "^(\\d+)\\.?(\\d+)?e?([+-]?\\d+)?\$".toRegex()
             val matchResult = numberRegex.find(str) ?: throw IllegalArgumentException("Wrong number")
 
@@ -298,7 +305,7 @@ class NumberFormat(private val spec: Spec) {
             }
 
             return NumberInfo(
-                number,
+                num.absoluteValue,
                 negative,
                 integerPart,
                 fractionPart,

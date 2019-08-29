@@ -5,6 +5,13 @@ import kotlin.test.assertEquals
 
 class NumberFormatTypeGTest {
     @Test
+    fun generalNotationWithoutPRecision() {
+        assertEquals("0.00005", NumberFormat("g").apply(0.00005))
+        assertEquals("0.05", NumberFormat("g").apply(0.05))
+        assertEquals("1", NumberFormat("g").apply(1.0))
+    }
+
+    @Test
     fun canOutputGeneralNotation() {
         assertEquals("0.05", NumberFormat(".1g").apply(0.049))
         assertEquals("0.5", NumberFormat(".1g").apply(0.49))
