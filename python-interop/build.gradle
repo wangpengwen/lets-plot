@@ -1,0 +1,49 @@
+plugins {
+    id 'kotlin-multiplatform'
+    id 'org.jetbrains.gradle.plugin.idea-ext'
+}
+
+kotlin {
+    macosX64 {
+        compilations.main.cinterops {
+            python {
+                compilerOpts "-I$System.env.PYTHON_INCLUDE"
+            }
+        }
+
+        binaries {
+            sharedLib {
+                baseName = "datalore-plot-${project.name}"
+                linkerOpts "-L$System.env.PYTHON_LIB -lpython${System.env.PYTHON_VERSION}m"
+            }
+        }
+    }
+    linuxX64 {
+        compilations.main.cinterops {
+            python {
+                compilerOpts "-I$System.env.PYTHON_INCLUDE"
+            }
+        }
+
+        binaries {
+            sharedLib {
+                baseName = "datalore-plot-${project.name}"
+                linkerOpts "-L$System.env.PYTHON_LIB"
+            }
+        }
+    }
+
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation kotlin('stdlib-common')
+
+
+            }
+        }
+        linuxX64Main {
+        }
+        macosX64Main {
+        }
+    }
+}
