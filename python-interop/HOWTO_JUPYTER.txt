@@ -1,0 +1,23 @@
+- Jupyter must be installed in Python environment (IPython.display is required)
+
+- edit paths to python in python-interop/src/nativeInterop/cinterop/python.def
+
+- build project (gradle)
+
+In terminal:
+    - create/activate Python environment (I use conda)
+    - cd to ..../datalore-plot/python-interop/packages
+    - install package: python setup.py install
+
+Start local web-server to serve our js scripts (from /datalore-plot/visualization-demo-plot/build/demoWeb/lib):
+    - cd to ..../datalore-plot/visualization-demo-plot/build/demoWeb/lib
+    - python -m http.server 8080
+
+
+View a plot:
+    - in Jupyter notebook try code:
+
+        from datalore.plot.hello import plotgg
+        plotgg()
+
+Sample bar plot should show up.
