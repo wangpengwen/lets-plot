@@ -26,9 +26,9 @@ fun createMethods(): CArrayPointer<PyMethodDef> {
 val module = cValue<PyModuleDef> {
     m_name = "datalore_plot_kotlin_interop".cstr.getPointer(scope)
     m_doc = "Experiments with Python to kotlin".cstr.getPointer(scope)
-    m_size = -1
+    m_size = -1L
     m_methods = createMethods()
 }
 
 @CName("PyInit_libdatalore_plot_python_interop")
-fun PyInit_libdatalore_plot_python_interop() = PyModule_Create2(module, PYTHON_API_VERSION)
+fun PyInit_libdatalore_plot_python_interop(): CPointer<PyObject>? = PyModule_Create2(module.getPointer(scope), PYTHON_API_VERSION)

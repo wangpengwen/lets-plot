@@ -7,14 +7,14 @@ kotlin {
     macosX64 {
         compilations.main.cinterops {
             python {
-                //compilerOpts "-I$System.env.PYTHON_INCLUDE"
+                compilerOpts "-I$System.env.PYTHON_INCLUDE"
             }
         }
 
         binaries {
             sharedLib {
                 baseName = "datalore-plot-${project.name}"
-                //linkerOpts "-L$System.env.PYTHON_LIB -lpython${System.env.PYTHON_VERSION}m"
+                linkerOpts "-L$System.env.PYTHON_LIB"
             }
         }
     }
@@ -28,7 +28,7 @@ kotlin {
         binaries {
             sharedLib {
                 baseName = "datalore-plot-${project.name}"
-                linkerOpts "-L$System.env.PYTHON_LIB"
+                linkerOpts = ["-undefined", "dynamic_lookup"]
             }
         }
     }
