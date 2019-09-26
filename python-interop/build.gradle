@@ -14,7 +14,6 @@ kotlin {
         binaries {
             sharedLib {
                 baseName = "datalore-plot-${project.name}"
-                linkerOpts "-L$System.env.PYTHON_LIB"
             }
         }
     }

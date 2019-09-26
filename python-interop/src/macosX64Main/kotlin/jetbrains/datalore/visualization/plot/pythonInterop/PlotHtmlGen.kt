@@ -1,3 +1,6 @@
+package jetbrains.datalore.visualization.plot.pythonInterop
+
+
 object PlotHtmlGen {
     val KOTLIN_LIBS = listOf(
         "kotlin.js",
@@ -102,15 +105,14 @@ object PlotHtmlGen {
         val randomString: String = List(6) { alphabet.random() }.joinToString("")
         val plotOutputId = "plot_output_$randomString"
 
-        val plotSpecString = plotSpec.toString()
+
+        //val plotSpecJs = mapToJsObjectInitializer(plotSpec)
+        val plotSpecJs = ""
 
         val baseUrl = "http://0.0.0.0:8080"
 
         return """
     <div id="$plotOutputId"</div>
-    
-    <div>Plot spec: $plotSpecString</div>
-
 
     <script type="text/javascript">
     requirejs.config({
@@ -136,27 +138,7 @@ object PlotHtmlGen {
 </script>
     
     <script type="text/javascript">var plotSpecList=[
-{
-'mapping':{
-'x':"time",
-'y':"..count..",
-'fill':"..count.."
-},
-'data':{
-},
-'scales':[{
-'aesthetic':"fill",
-'discrete':true,
-'scale_mapper_kind':"color_hue"
-}],
-'layers':[{
-'data':{
-'..count..':[2.0,3.0],
-'time':["Lunch","Dinner"]
-},
-'geom':"bar"
-}]
-}
+$plotSpecJs
 ];
 
 plotSpecList.forEach(function (spec, index) {

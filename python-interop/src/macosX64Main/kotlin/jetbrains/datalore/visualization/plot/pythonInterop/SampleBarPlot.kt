@@ -1,3 +1,5 @@
+package jetbrains.datalore.visualization.plot.pythonInterop
+
 import Python.*
 import kotlinx.cinterop.*
 import utils.TypeUtils.pyDictToMap
@@ -10,8 +12,9 @@ object SampleBarPlot {
 
         val plotSpecMap = pyDictToMap(inputDict.value)
 
+        nativeHeap.free(inputDict)
+
         val html = PlotHtmlGen.getHtml(plotSpecMap)
-        println(plotSpecMap)
 
         val result = Py_BuildValue("s", html);
 
