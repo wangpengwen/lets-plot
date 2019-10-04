@@ -97,7 +97,7 @@ class NumberFormat(private val spec: Spec) {
                     )
                 }
 
-                check(exponent < MAX_DECIMALS)
+                check(exponent <= MAX_DECIMALS)
                 // number = 1.23E-4. double: 0.000123
                 if (exponent < 0) {
                     return NumberInfo(
