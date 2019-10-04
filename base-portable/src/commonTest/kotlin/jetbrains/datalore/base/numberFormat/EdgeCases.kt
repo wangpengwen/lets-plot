@@ -2,6 +2,7 @@ package jetbrains.datalore.base.numberFormat
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class EdgeCases {
 
@@ -54,10 +55,37 @@ class EdgeCases {
     }
 
     @Test
+    fun throwsExceptions() {
+        val assertThrows = {format: NumberFormat, number: Number ->
+            var wasThrown: Boolean = false
+            try {
+                format.apply(number)
+            } catch (e: Throwable) {
+                wasThrown = true
+            } finally {
+                assertTrue(wasThrown)
+            }
+        }
+
+        listOf("g", "e", "f").forEach {
+            with(NumberFormat(it)) {
+                assertThrows(this, Double.NaN)
+                assertThrows(this, Double.NEGATIVE_INFINITY)
+                assertThrows(this, Double.POSITIVE_INFINITY)
+            }
+        }
+    }
+
+    @Test
+    fun negativeZero() {
+        assertEquals("-0", NumberFormat("g").apply(-0.0))
+        assertEquals("-0.0000", NumberFormat("f").apply(-0.0))
+        assertEquals("-0.0000e+0", NumberFormat("e").apply(-0.0))
+    }
+
+    @Test
     fun zero() {
         assertEquals("0", NumberFormat(".18g").apply(0.0))
         assertEquals("0", NumberFormat("g").apply(0.0))
-        assertEquals("0e+0", NumberFormat("e").apply(0.0))
-        assertEquals("0", NumberFormat("f").apply(0.0))
     }
 }
