@@ -8,13 +8,13 @@ class EdgeCases {
 
     @Test
     fun exponentCloseToMaxDecimals_AutoDecimals() {
-        assertEquals("2e-17", NumberFormat("e").apply(2.0E-17)) // 17 decimals
-        assertEquals("2e-18", NumberFormat("e").apply(2.0E-18)) // 18 decimals
-        assertEquals("2e-19", NumberFormat("e").apply(2.0E-19)) // 19 decimals
+        assertEquals("2.000000e-17", NumberFormat("e").apply(2.0E-17)) // 17 decimals
+        assertEquals("2.000000e-18", NumberFormat("e").apply(2.0E-18)) // 18 decimals
+        assertEquals("2.000000e-19", NumberFormat("e").apply(2.0E-19)) // 19 decimals
 
-        assertEquals("2e-17", NumberFormat("g").apply(2.0E-17))
-        assertEquals("2e-18", NumberFormat("g").apply(2.0E-18))
-        assertEquals("2e-19", NumberFormat("g").apply(2.0E-19))
+        assertEquals("2.000000e-17", NumberFormat("g").apply(2.0E-17))
+        assertEquals("2.000000e-18", NumberFormat("g").apply(2.0E-18))
+        assertEquals("2.000000e-19", NumberFormat("g").apply(2.0E-19))
 
         assertEquals("0.012345678901234568", NumberFormat("g").apply(0.012_345_678_901_234_567_89))
     }
@@ -34,9 +34,9 @@ class EdgeCases {
 
     @Test
     fun maxValues() {
-        assertEquals("", NumberFormat("g").apply(Long.MAX_VALUE))
-        assertEquals("", NumberFormat("e").apply(Long.MAX_VALUE))
-        assertEquals("", NumberFormat("f").apply(Long.MAX_VALUE))
+        assertEquals("9.22337e+18", NumberFormat("g").apply(Long.MAX_VALUE))
+        assertEquals("9.223372e+18", NumberFormat("e").apply(Long.MAX_VALUE))
+        assertEquals("9223372036854775807.000000", NumberFormat("f").apply(Long.MAX_VALUE))
 
         assertEquals("", NumberFormat("g").apply(Double.MAX_VALUE))
         assertEquals("", NumberFormat("e").apply(Double.MAX_VALUE))
@@ -45,9 +45,9 @@ class EdgeCases {
 
     @Test
     fun minValues() {
-        assertEquals("", NumberFormat("g").apply(Long.MIN_VALUE))
-        assertEquals("", NumberFormat("e").apply(Long.MIN_VALUE))
-        assertEquals("", NumberFormat("f").apply(Long.MIN_VALUE))
+        assertEquals("-9.22337e+18", NumberFormat("g").apply(Long.MIN_VALUE))
+        assertEquals("-9.223372e+18", NumberFormat("e").apply(Long.MIN_VALUE))
+        assertEquals("-9223372036854775807.000000", NumberFormat("f").apply(Long.MIN_VALUE))
 
         assertEquals("", NumberFormat("g").apply(Double.MIN_VALUE))
         assertEquals("", NumberFormat("e").apply(Double.MIN_VALUE))

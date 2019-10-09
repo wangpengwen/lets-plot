@@ -55,6 +55,13 @@ class NumberFormat(private val spec: Spec) {
         val fractionLeadingZeros = MAX_DECIMALS - length(fractionalPart)
         val integerLength = length(integerPart)
         val fractionString = "0".repeat(fractionLeadingZeros) + fractionalPart.toString().trimEnd('0')
+        val exponentString =
+                if (exponent != null) {
+                    val expSign = if (exponent.sign >= 0) "+" else ""
+                    "e$expSign${exponent}"
+                } else {
+                    ""
+                }
 
         companion object {
             /**
@@ -64,6 +71,15 @@ class NumberFormat(private val spec: Spec) {
             internal val MAX_DECIMAL_VALUE = 10.0.pow(MAX_DECIMALS).toLong()
 
             internal fun createNumberInfo(num: Number): NumberInfo {
+                // check if number hasn't fraction part
+                if ((num is Long) || (num is Int)) {
+                    return NumberInfo(
+                        number = num,
+                        integerPart = (if (num == Long.MIN_VALUE) num.toLong() + 1 else num.toLong()).absoluteValue,
+                        fractionalPart = 0
+                    )
+                }
+
                 // frac: "123", exp: 8, double: 0.00000123
                 //   -> long: 000_001_230_000_000_000 (extended to max decimal digits)
                 val encodeFraction = { frac: String, exp: Int ->
@@ -243,6 +259,10 @@ class NumberFormat(private val spec: Spec) {
         } else {
             numberInfo.integerLength - 1
         }
+
+        val exponent = numberInfo.exponent ?: 0
+        e += exponent
+
         val n = num / 10.0.pow(e)
 
         var newInfo = createNumberInfo(n)
@@ -296,24 +316,17 @@ class NumberFormat(private val spec: Spec) {
     }
 
     private fun toSimpleFormat(numberInfo: NumberInfo, precision: Int = -1): FormattedNumber {
-        val exponentString = if (numberInfo.exponent != null) {
-            val expSign = if (numberInfo.exponent.sign >= 0) "+" else ""
-            "e$expSign${numberInfo.exponent}"
-        } else {
-            ""
-        }
-
         val expNumberInfo =
             createNumberInfo(numberInfo.integerPart + numberInfo.fractionalPart / NumberInfo.MAX_DECIMAL_VALUE.toDouble())
 
         if (precision > -1) {
             val formattedNumber = toFixedFormat(expNumberInfo, precision)
-            return formattedNumber.copy(exponentialPart = exponentString)
+            return formattedNumber.copy(exponentialPart = numberInfo.exponentString)
         }
 
         val integerString = expNumberInfo.integerPart.toString()
         val fractionString = if (expNumberInfo.fractionalPart == 0L) "" else expNumberInfo.fractionString
-        return FormattedNumber(integerString, fractionString, exponentString)
+        return FormattedNumber(integerString, fractionString, expNumberInfo.exponentString)
     }
 
     private fun toSiFormat(numberInfo: NumberInfo, precision: Int = -1): FormattedNumber {
@@ -348,7 +361,7 @@ class NumberFormat(private val spec: Spec) {
                 numberInfo.integerPart / 10.0.pow(intShift).toLong() * 10.0.pow(intShift).toLong()
             }
         } else {
-            val precisionExp = NumberInfo.MAX_DECIMAL_VALUE / 10.0.pow(totalPrecision).toLong()
+            val precisionExp = (NumberInfo.MAX_DECIMAL_VALUE / 10.0.pow(totalPrecision).toLong()).coerceAtLeast(1L)
             fractionalPart = (numberInfo.fractionalPart.toDouble() / precisionExp).roundToLong() * precisionExp
             integerPart = numberInfo.integerPart
             if (fractionalPart == NumberInfo.MAX_DECIMAL_VALUE) {
