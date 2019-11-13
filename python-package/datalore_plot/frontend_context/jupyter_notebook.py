@@ -43,29 +43,19 @@ class JupyterNotebookContext(FrontendContext):
         if _has_global_value('js_name'):
             name = _get_global_str('js_name')
         else:
-            suffix = ".min.js" if _is_production() else ".js"
+            suffix = ".min" if _is_production() else ""
             name = "datalore-plot-{version}{suffix}".format(version=__version__, suffix=suffix)
 
         url = "{base_url}/{name}".format(base_url=base_url, name=name)
         return """\
-                <script type="text/javascript">
-                    (function() {{
-                        var script = document.createElement("script");
-                        script.type = "text/javascript";
-                        script.src = "{url}";
-                        script.onload = function() {{
-                            console.log("DatalorePlot loaded");
-                            if(window.datalorePlotGraphics) {{
-                                window.datalorePlotGraphics.forEach(function(el) {{
-                                    DatalorePlot.buildPlotFromProcessedSpecs(el.spec, -1, -1, el.container);
-                                }})
-                                window.datalorePlotGraphics = null;
-                            }}
-                        }}
-                        document.head.appendChild(script)
-                    }})()
-                </script>
-            """.format(url=url)
+            <script type="text/javascript">
+                requirejs.config({{
+                    paths: {{
+                        'datalore-plot': '{url}'        
+                    }}
+                }});
+            </script>
+        """.format(url=url)
 
     def _configure_embedded_script(self) -> str:
         js_name = "datalore-plot-latest.min.js"

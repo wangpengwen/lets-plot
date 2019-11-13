@@ -16,8 +16,7 @@ module.exports = {
     output: {
         library: 'DatalorePlot',
         path: distPath,
-        libraryTarget: 'window',
-        globalObject: 'window'
+        libraryTarget: 'umd'
     },
     resolve: {
         modules: [libPath, jsPackagePath, 'node_modules']
