@@ -12,16 +12,16 @@ plugins {
 // ----------------------------------------
 
 def task_group = 'lets plot'
-def tools_dir = "${rootDir}/tools"
-def python_package_dir = "${rootDir}/python-package"
-def python_package_build_dir = "${python_package_dir}/build"
-def python_package_dist_dir = "${python_package_dir}/dist"
+def tools_dir = "${rootDir}${File.separator}tools"
+def python_package_dir = "${rootDir}${File.separator}python-package"
+def python_package_build_dir = "${python_package_dir}${File.separator}build"
+def python_package_dist_dir = "${python_package_dir}${File.separator}dist"
 
 clean {
     delete python_package_build_dir
     delete python_package_dist_dir
-    delete "${python_package_dir}/lets_plot/package_data"
-    delete "${python_package_dir}/lets_plot.egg-info"
+    delete "${python_package_dir}${File.separator}lets_plot${File.separator}package_data"
+    delete "${python_package_dir}${File.separator}lets_plot.egg-info"
 }
 
 if (project.buildSettings.enable_python_package) {
@@ -33,7 +33,7 @@ if (project.buildSettings.enable_python_package) {
         description = 'Builds lets-plot wheel distribution (python)'
 
         workingDir python_package_dir
-        commandLine "${python_bin_path}/python3",
+        commandLine "${python_bin_path}${File.separator}python",
                 'setup.py',
                 'update_js',
                 'bdist_wheel',

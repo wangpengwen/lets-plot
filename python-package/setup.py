@@ -17,7 +17,7 @@ python_package = "lets_plot"
 
 
 def update_js():
-    js_relative_path = ['js-package', 'build', 'dist']
+    js_relative_path = [os.path.join('js-package', 'build', 'dist')]
     js_libs = [
         'lets-plot-latest.min',
     ]
@@ -25,7 +25,8 @@ def update_js():
     from shutil import copy
 
     for lib in js_libs:
-        js_path = os.path.join(root_dir, *js_relative_path, lib + '.js')
+        full_lib_name = lib + '.js'
+        js_path = os.path.join(root_dir, *js_relative_path, full_lib_name)
 
         dst_dir = os.path.join(this_dir, python_package, 'package_data')
         if not os.path.isdir(dst_dir):
@@ -74,6 +75,7 @@ setup(name='lets-plot',
           "Framework :: Jupyter",
           "Operating System :: MacOS",
           "Operating System :: POSIX :: Linux",
+          "Operating System :: Microsoft :: Windows"
           "Programming Language :: Python :: Implementation :: CPython",
           "Topic :: Scientific/Engineering :: Visualization",
           "Intended Audience :: Science/Research",
@@ -84,7 +86,7 @@ setup(name='lets-plot',
 
       package_data={
           python_package: [
-              "package_data/*",
+              os.path.join("package_data", "*"),
           ],
       },
 
@@ -95,6 +97,7 @@ setup(name='lets-plot',
                     library_dirs=[binaries_build_path],
                     depends=['liblets_plot_python_extension_api.h'],
                     sources=[kotlin_bridge_src],
+                    extra_link_args=['-lpthread']
                     )
       ],
 
