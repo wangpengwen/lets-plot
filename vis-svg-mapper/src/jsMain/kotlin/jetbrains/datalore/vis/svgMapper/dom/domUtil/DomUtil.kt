@@ -31,7 +31,7 @@ object DomUtil {
     }
 
     fun nodeChildren(n: Node): MutableList<Node?> {
-        return object: AbstractMutableList<Node?>() {
+        return object : AbstractMutableList<Node?>() {
 
             override val size: Int
                 get() = n.childCount
@@ -72,7 +72,7 @@ object DomUtil {
     fun <NodeT, ElementT : With<out NodeT>> withElementChildren(base: MutableList<NodeT?>): List<ElementT?> {
         val items: MutableList<ElementT?> = mutableListOf()
 
-        return object: AbstractMutableList<ElementT?>() {
+        return object : AbstractMutableList<ElementT?>() {
             override val size: Int
                 get() = items.size
 
@@ -214,7 +214,7 @@ object DomUtil {
             private var myTimer: Int = -1
 
             override fun doAddListeners() {
-                myTimer = window.setInterval({update()}, period)
+                myTimer = window.setInterval({ update() }, period)
             }
 
             override fun doRemoveListeners() {
@@ -226,35 +226,54 @@ object DomUtil {
     }
 
     fun generateElement(source: SvgElement): SVGElement =
-            when(source) {
-                is SvgEllipseElement -> createSVGElement("ellipse")
-                is SvgCircleElement -> createSVGElement("circle")
-                is SvgRectElement -> createSVGElement("rect")
-                is SvgTextElement -> createSVGElement("text")
-                is SvgPathElement -> createSVGElement("path")
-                is SvgLineElement -> createSVGElement("line")
-                is SvgSvgElement -> createSVGElement("svg")
-                is SvgGElement -> createSVGElement("g")
-                is SvgStyleElement -> createSVGElement("style")
-                is SvgTSpanElement -> createSVGElement("tspan")
-                is SvgDefsElement -> createSVGElement("defs")
-                is SvgClipPathElement -> createSVGElement("clipPath")
-                is SvgImageElement -> createSVGElement("image")
-                else -> throw IllegalStateException("Unsupported svg element ${source::class.simpleName}")
-            }
+        when (source) {
+            is SvgEllipseElement -> createSVGElement("ellipse")
+            is SvgCircleElement -> createSVGElement("circle")
+            is SvgRectElement -> createSVGElement("rect")
+            is SvgTextElement -> createSVGElement("text")
+            is SvgPathElement -> createSVGElement("path")
+            is SvgLineElement -> createSVGElement("line")
+            is SvgSvgElement -> createSVGElement("svg")
+            is SvgGElement -> createSVGElement("g")
+            is SvgStyleElement -> createSVGElement("style")
+            is SvgTSpanElement -> createSVGElement("tspan")
+            is SvgDefsElement -> createSVGElement("defs")
+            is SvgClipPathElement -> createSVGElement("clipPath")
+            is SvgImageElement -> createImageElement(source)
+            else -> throw IllegalStateException("Unsupported svg element ${source::class.simpleName}")
+        }
 
     fun generateSlimNode(source: SvgSlimNode): Element =
-            when(source.elementName) {
-                SvgSlimElements.GROUP -> createSVGElement("g")
-                SvgSlimElements.LINE -> createSVGElement("line")
-                SvgSlimElements.CIRCLE -> createSVGElement("circle")
-                SvgSlimElements.RECT -> createSVGElement("rect")
-                SvgSlimElements.PATH -> createSVGElement("path")
-                else -> throw IllegalStateException("Unsupported SvgSlimNode ${source::class}")
-            }
+        when (source.elementName) {
+            SvgSlimElements.GROUP -> createSVGElement("g")
+            SvgSlimElements.LINE -> createSVGElement("line")
+            SvgSlimElements.CIRCLE -> createSVGElement("circle")
+            SvgSlimElements.RECT -> createSVGElement("rect")
+            SvgSlimElements.PATH -> createSVGElement("path")
+            else -> throw IllegalStateException("Unsupported SvgSlimNode ${source::class}")
+        }
 
     fun generateTextElement(source: SvgTextNode): Text = document.createTextNode("")
 
     private fun createSVGElement(name: String): SVGElement =
-            document.createElementNS("http://www.w3.org/2000/svg", name) as SVGElement
+        document.createElementNS("http://www.w3.org/2000/svg", name) as SVGElement
+
+    /**
+    Workaround for Safari. To render image without interpolation we can use foreignObject and nested W3C img tag instead of image from SVG
+    Example:
+    <foreignObject width="200" height="100" x="20" y="40">
+        <img height="100%" width="100%" src="data:image/png;base64,..."/>
+    </foreignObject>
+     **/
+    private fun createImageElement(source: SvgImageElement): SVGElement =
+        createSVGElement("foreignObject").apply {
+            appendChild(
+                document.createElement("img")
+                    .apply {
+                        setAttribute("width", "100%")
+                        setAttribute("height", "100%")
+                        setAttribute("src", source.href().get().toString())
+                    }
+            )
+        }
 }
